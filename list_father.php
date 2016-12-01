@@ -29,10 +29,16 @@ $sql = "select * from sfk_son_module where father_module_id = {$_GET['id']}";
 $result_son = execute($link,$sql);
 
 $id_son='';
+$name_son ='';
 while ($data_son = mysqli_fetch_assoc($result_son)){
    $id_son.=$data_son['id'].',';
+   $name_son.="<a>{$data_son['module_name']}</a> ";
 }
 $id_son = trim($id_son,',');
+
+if ($id_son ==''){
+    $id_son = '0';
+}
 
 $sql2 = "select count(*) from sfk_content where module_id in({$id_son})";
 $all_content_count = num($link,$sql2);
@@ -55,7 +61,7 @@ $today_content_count = num($link,$sql3);
             <div class="num">
                 今日：<span><?php echo $today_content_count ?></span>&nbsp;&nbsp;&nbsp;
                 总帖：<span><?php echo $all_content_count ?></span>
-                <div class="moderator"> 子版块： <a>NBA</a> <a>CBA</a></div>
+                <div class="moderator"> 子版块： <?php echo $name_son ?></div>
             </div>
             <div class="pages_wrap">
                 <a class="btn publish" href=""></a>
