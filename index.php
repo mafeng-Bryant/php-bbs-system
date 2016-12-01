@@ -22,7 +22,6 @@ $template['css']=array('style/public.css','style/index.css');
     <ul class="newlist">
         <!-- 20条 -->
         <li><a href="#">[库队]</a> <a href="#">私房库实战项目录制中...</a></li>
-
     </ul>
     <div style="clear:both;"></div>
 </div>
@@ -34,7 +33,7 @@ while($data_father=mysqli_fetch_assoc($result_father)) {
     ?>
     <div class="box auto">
         <div class="title">
-            <?php echo $data_father['module_name']?>
+            <a href="list_father.php?id=<?php echo $data_father['id'] ?>" style="color: #105cb6;"><?php echo $data_father['module_name']?></a>
         </div>
         <div class="classList">
             <?php
