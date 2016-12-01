@@ -25,23 +25,36 @@ if (mysqli_num_rows($result_father) ==0){
 
 $data_father =  mysqli_fetch_assoc($result_father);
 
+$sql = "select * from sfk_son_module where father_module_id = {$_GET['id']}";
+$result_son = execute($link,$sql);
+
+$id_son='';
+while ($data_son = mysqli_fetch_assoc($result_son)){
+   $id_son.=$data_son['id'].',';
+}
+$id_son = trim($id_son,',');
+
+$sql2 = "select count(*) from sfk_content where module_id in({$id_son})";
+$all_content_count = num($link,$sql2);
+
+$sql3 = "select count(*) from sfk_content where module_id in({$id_son}) and time > CURDATE()";
+$today_content_count = num($link,$sql3);
 
 
 ?>
 
 <?php include 'inc/header.inc.php' ?>
 
-
 <div id="position" class="auto">
-    <a>首页</a> &gt; <a>NBA</a>
+    <a href="index.php">首页</a> &gt; <a href="list_father.php?id=<?php echo $data_father['id'] ?>"><?php echo $data_father['module_name'] ?></a>
 </div>
 <div id="main" class="auto">
     <div id="left">
         <div class="box_wrap">
             <h3><?php echo $data_father['module_name'] ?></h3>
             <div class="num">
-                今日：<span>7</span>&nbsp;&nbsp;&nbsp;
-                总帖：<span>158061</span>
+                今日：<span><?php echo $today_content_count ?></span>&nbsp;&nbsp;&nbsp;
+                总帖：<span><?php echo $all_content_count ?></span>
                 <div class="moderator"> 子版块： <a>NBA</a> <a>CBA</a></div>
             </div>
             <div class="pages_wrap">
