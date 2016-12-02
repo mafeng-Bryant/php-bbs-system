@@ -10,8 +10,14 @@ if (!($member_id = is_login($link))){
     skipPage('login.php','ok','请登录后在发帖!');
 }
 
-if (isset($_POST['submit'])){
+if (isset($_GET['id'])){ //存在，设置选择
 
+
+
+}
+
+
+if (isset($_POST['submit'])){
 
     include 'inc/check_publish.inc.php';
     $_POST = escape($link,$_POST);
@@ -37,6 +43,7 @@ $template['css']=array('style/public.css','style/publish.css');
 <div id="publish">
     <form method="post">
         <select name="module_id">
+            echo "<option value='-1'>请选择一个子版块</option>";
             <?php
             $query = "select * from sfk_father_module order by sort desc";
             $result = execute($link,$query);
@@ -45,7 +52,11 @@ $template['css']=array('style/public.css','style/publish.css');
               $sql = "select * from sfk_son_module where father_module_id={$data['id']} order by sort desc";
               $result_son = execute($link,$sql);
              while ($data_son=mysqli_fetch_assoc($result_son)){
-                 echo "<option value='{$data_son['id']}'>{$data_son['module_name']}</option>";
+                if (isset($_GET['son_module_id']) && $_GET['son_module_id'] == $data_son['id']){
+                    echo "<option  selected='selected' value='{$data_son['id']}'>{$data_son['module_name']}</option>";
+                }else {
+                    echo "<option value='{$data_son['id']}'>{$data_son['module_name']}</option>";
+                }
              }
             echo "</optgroup>";
           }

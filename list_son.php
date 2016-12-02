@@ -66,7 +66,7 @@ $template['css']=array('style/public.css','style/list.css');
                 </span></div>
             <div class="notice"><?php echo $data_son['info']?></div>
             <div class="pages_wrap">
-                <a class="btn publish" href=""></a>
+                <a class="btn publish" href="publish.php?son_module_id=<?php echo $_GET['id']?>" target="_blank"></a>
                 <div class="pages">
                     <?php
                     $page = page($all_content_count,5);
@@ -120,7 +120,7 @@ $template['css']=array('style/public.css','style/list.css');
             }
             ?>
             <div class="pages_wrap">
-                <a class="btn publish" href=""></a>
+                <a class="btn publish" href="publish.php?son_module_id=<?php echo $_GET['id']?>" target="_blank"></a>
                 <div class="pages">
                     <?php
                     echo $page['html'];

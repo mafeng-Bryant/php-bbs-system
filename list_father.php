@@ -63,7 +63,7 @@ $template['css']=array('style/public.css','style/list.css');
                 <div class="moderator"> 子版块： <?php echo $name_son ?></div>
             </div>
             <div class="pages_wrap">
-                <a class="btn publish" href=""></a>
+                <a class="btn publish" href="publish.php"></a>
                 <div class="pages">
                     <?php
                     $page = page($all_content_count,5);
@@ -116,7 +116,7 @@ $template['css']=array('style/public.css','style/list.css');
           }
           ?>
         <div class="pages_wrap">
-            <a class="btn publish" href=""></a>
+            <a class="btn publish" href="publish.php"></a>
             <div class="pages">
                 <?php
                 echo $page['html'];
