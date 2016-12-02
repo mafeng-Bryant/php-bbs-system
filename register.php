@@ -6,7 +6,7 @@ include_once 'inc/tool.inc.php';
 
 $link = connectMySql();
 
-if (is_login($link)){
+if ($member_id = is_login($link)){
     skipPage("index.php",'error','你已经注册成功，请不要重复注册!');
 }
 

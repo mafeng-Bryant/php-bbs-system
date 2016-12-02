@@ -45,7 +45,7 @@ while($data_father=mysqli_fetch_assoc($result_father)) {
                     $total_count =num($link,$sql2);
 $html=<<<A
             <div class="childBox new">
-            <h2><a href="#">{$data_son['module_name']}</a><span>(今日{$today_count})</span></h2>
+            <h2><a href="list_son.php?id={$data_son['id']}">{$data_son['module_name']}</a><span>(今日{$today_count})</span></h2>
             帖子：{$total_count}<br />
             </div>  
 A;

@@ -6,8 +6,7 @@ include_once 'inc/tool.inc.php';
 
 $link = connectMySql();
 
-if (!($member_id = is_login($link))){
-}
+$member_id = is_login($link);
 
 if (isset($_POST['submit'])){
 

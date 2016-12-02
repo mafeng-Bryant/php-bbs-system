@@ -28,7 +28,7 @@ $id_son='';
 $name_son ='';
 while ($data_son = mysqli_fetch_assoc($result_son)){
    $id_son.=$data_son['id'].',';
-   $name_son.="<a>{$data_son['module_name']}</a> ";
+   $name_son.="<a href='list_son.php?id={$data_son['id']}'>{$data_son['module_name']}</a> ";
 }
 $id_son = trim($id_son,',');
 
@@ -41,7 +41,6 @@ $all_content_count = num($link,$sql2);
 
 $sql3 = "select count(*) from sfk_content where module_id in({$id_son}) and time > CURDATE()";
 $today_content_count = num($link,$sql3);
-
 
 $template['title'] = '父版块列表页';
 $template['css']=array('style/public.css','style/list.css');
@@ -134,7 +133,6 @@ $template['css']=array('style/public.css','style/list.css');
                 $query = "select * from sfk_father_module";
                 $result = execute($link,$query);
                 while ($data_father = mysqli_fetch_assoc($result)){
-
                 ?>
                     <li>
                         <h2><a href="list_father.php?id=<?php echo $data_father['id']?>"><?php echo $data_father['module_name']?></a></h2>
@@ -144,7 +142,7 @@ $template['css']=array('style/public.css','style/list.css');
                          $result_son = execute($link,$query);
                          while($data_son = mysqli_fetch_assoc($result_son)){
                              ?>
-                             <li><h3><a href="#"><?php echo $data_son['module_name']?></a></h3></li>
+                             <li><h3><a href="list_son.php?id =<?php echo $data_son['id']?>"><?php echo $data_son['module_name']?></a></h3></li>
                              <?php
                          }
                     ?>
