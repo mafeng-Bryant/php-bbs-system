@@ -79,6 +79,18 @@ $today_content_count = num($link,$sql3);
         </div>
         <div style="clear:both;"></div>
         <ul class="postsList">
+
+            <?php
+            $sql4 = "select sfk_member.photo,sfk_member.name,sfk_content.time,sfk_content.id,sfk_content.title,sfk_content.times,sfk_son_module.module_name 
+                      from sfk_content,sfk_member,sfk_son_module 
+                      where sfk_content.module_id in({$id_son}) 
+                      and sfk_content.member_id = sfk_member.id
+                      and  sfk_content.module_id = sfk_son_module.id";
+            $result_3 = execute($link,$sql4);
+            while($data_content = mysqli_fetch_assoc($result_3)){
+
+                ?>
+
             <li>
                 <div class="smallPic">
                     <a href="#">
@@ -86,9 +98,9 @@ $today_content_count = num($link,$sql3);
                     </a>
                 </div>
                 <div class="subject">
-                    <div class="titleWrap"><a href="#">[分类]</a>&nbsp;&nbsp;<h2><a href="#">我这篇帖子不错哦</a></h2></div>
+                    <div class="titleWrap"><a href="#"><?php  echo  $data_content['module_name'] ?></a>&nbsp;&nbsp;<h2><a href="#"><?php echo $data_content['title']?></a></h2></div>
                     <p>
-                        楼主：孙胜利&nbsp;2014-12-08&nbsp;&nbsp;&nbsp;&nbsp;最后回复：2014-12-08
+                        楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：2014-12-08
                     </p>
                 </div>
                 <div class="count">
@@ -96,78 +108,17 @@ $today_content_count = num($link,$sql3);
                         回复<br /><span>41</span>
                     </p>
                     <p>
-                        浏览<br /><span>896</span>
+                        浏览<br /><span><?php echo $data_content['times'] ?></span>
                     </p>
                 </div>
                 <div style="clear:both;"></div>
             </li>
-            <li>
-                <div class="smallPic">
-                    <a href="#">
-                        <img width="45" height="45"src="style/2374101_small.jpg">
-                    </a>
-                </div>
-                <div class="subject">
-                    <div class="titleWrap"><a href="#">[分类]</a>&nbsp;&nbsp;<h2><a href="#">我这篇帖子不错哦</a></h2></div>
-                    <p>
-                        楼主：孙胜利&nbsp;2014-12-08&nbsp;&nbsp;&nbsp;&nbsp;最后回复：2014-12-08
-                    </p>
-                </div>
-                <div class="count">
-                    <p>
-                        回复<br /><span>41</span>
-                    </p>
-                    <p>
-                        浏览<br /><span>896</span>
-                    </p>
-                </div>
-                <div style="clear:both;"></div>
-            </li>
-            <li>
-                <div class="smallPic">
-                    <a href="#">
-                        <img width="45" height="45"src="style/2374101_small.jpg">
-                    </a>
-                </div>
-                <div class="subject">
-                    <div class="titleWrap"><a href="#">[分类]</a>&nbsp;&nbsp;<h2><a href="#">我这篇帖子不错哦</a></h2></div>
-                    <p>
-                        楼主：孙胜利&nbsp;2014-12-08&nbsp;&nbsp;&nbsp;&nbsp;最后回复：2014-12-08
-                    </p>
-                </div>
-                <div class="count">
-                    <p>
-                        回复<br /><span>41</span>
-                    </p>
-                    <p>
-                        浏览<br /><span>896</span>
-                    </p>
-                </div>
-                <div style="clear:both;"></div>
-            </li>
-            <li>
-                <div class="smallPic">
-                    <a href="#">
-                        <img width="45" height="45"src="style/2374101_small.jpg">
-                    </a>
-                </div>
-                <div class="subject">
-                    <div class="titleWrap"><a href="#">[分类]</a>&nbsp;&nbsp;<h2><a href="#">我这篇帖子不错哦</a></h2></div>
-                    <p>
-                        楼主：孙胜利&nbsp;2014-12-08&nbsp;&nbsp;&nbsp;&nbsp;最后回复：2014-12-08
-                    </p>
-                </div>
-                <div class="count">
-                    <p>
-                        回复<br /><span>41</span>
-                    </p>
-                    <p>
-                        浏览<br /><span>896</span>
-                    </p>
-                </div>
-                <div style="clear:both;"></div>
-            </li>
-        </ul>
+
+            <?php
+          }
+
+          ?>
+
         <div class="pages_wrap">
             <a class="btn publish" href=""></a>
             <div class="pages">
