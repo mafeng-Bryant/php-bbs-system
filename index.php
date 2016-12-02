@@ -6,9 +6,7 @@ include_once 'inc/tool.inc.php';
 
 $link = connectMySql();
 
-if (!($member_id = is_login($link))){
-
-}
+$member_id = is_login($link);
 
 $template['title'] = '首页';
 $template['css']=array('style/public.css','style/index.css');

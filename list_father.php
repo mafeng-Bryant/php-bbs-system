@@ -3,15 +3,11 @@
 include_once 'inc/config.inc.php';
 include_once 'inc/mysql.inc.php';
 include_once 'inc/tool.inc.php';
+include_once  'inc/page.inc.php';
 
 $link = connectMySql();
 
-if (!($member_id = is_login($link))){
-
-}
-
-$template['title'] = '父版块列表页';
-$template['css']=array('style/public.css','style/list.css');
+$member_id = is_login($link);
 
 if (!is_numeric($_GET['id']) || !isset($_GET['id'])){
     skipPage('index.php','error','父版块id参数错误!');
@@ -47,6 +43,10 @@ $sql3 = "select count(*) from sfk_content where module_id in({$id_son}) and time
 $today_content_count = num($link,$sql3);
 
 
+$template['title'] = '父版块列表页';
+$template['css']=array('style/public.css','style/list.css');
+
+
 ?>
 
 <?php include 'inc/header.inc.php' ?>
@@ -66,31 +66,25 @@ $today_content_count = num($link,$sql3);
             <div class="pages_wrap">
                 <a class="btn publish" href=""></a>
                 <div class="pages">
-                    <a>« 上一页</a>
-                    <a>1</a>
-                    <span>2</span>
-                    <a>3</a>
-                    <a>4</a>
-                    <a>...13</a>
-                    <a>下一页 »</a>
+                    <?php
+                    $page = page($all_content_count,5);
+                    echo $page['html'];
+                    ?>
                 </div>
                 <div style="clear:both;"></div>
             </div>
         </div>
         <div style="clear:both;"></div>
         <ul class="postsList">
-
             <?php
             $sql4 = "select sfk_member.photo,sfk_member.name,sfk_content.time,sfk_content.id,sfk_content.title,sfk_content.times,sfk_son_module.module_name 
                       from sfk_content,sfk_member,sfk_son_module 
                       where sfk_content.module_id in({$id_son}) 
                       and sfk_content.member_id = sfk_member.id
-                      and  sfk_content.module_id = sfk_son_module.id";
+                      and  sfk_content.module_id = sfk_son_module.id {$page['limit']}";
             $result_3 = execute($link,$sql4);
             while($data_content = mysqli_fetch_assoc($result_3)){
-
                 ?>
-
             <li>
                 <div class="smallPic">
                     <a href="#">
@@ -119,22 +113,15 @@ $today_content_count = num($link,$sql3);
                 </div>
                 <div style="clear:both;"></div>
             </li>
-
             <?php
           }
-
           ?>
-
         <div class="pages_wrap">
             <a class="btn publish" href=""></a>
             <div class="pages">
-                <a>« 上一页</a>
-                <a>1</a>
-                <span>2</span>
-                <a>3</a>
-                <a>4</a>
-                <a>...13</a>
-                <a>下一页 »</a>
+                <?php
+                echo $page['html'];
+                ?>
             </div>
             <div style="clear:both;"></div>
         </div>
@@ -143,7 +130,6 @@ $today_content_count = num($link,$sql3);
         <div class="classList">
             <div class="title">版块列表</div>
             <ul class="listWrap">
-
                 <?php
                 $query = "select * from sfk_father_module";
                 $result = execute($link,$query);
@@ -174,6 +160,5 @@ $today_content_count = num($link,$sql3);
     </div>
     <div style="clear:both;"></div>
 </div>
-
 
 <?php include 'inc/footer.inc.php' ?>
