@@ -94,7 +94,13 @@ $today_content_count = num($link,$sql3);
             <li>
                 <div class="smallPic">
                     <a href="#">
-                        <img width="45" height="45"src="style/2374101_small.jpg">
+                        <img width="45" height="45" src="<?php
+                        if ($data_content['photo'] !='') {
+                         echo "{$data_content['photo']}";
+                        } else {
+                           echo "style/2374101_middle.jpg";
+                        }
+                        ?>">
                     </a>
                 </div>
                 <div class="subject">
@@ -137,17 +143,32 @@ $today_content_count = num($link,$sql3);
         <div class="classList">
             <div class="title">版块列表</div>
             <ul class="listWrap">
-                <li>
-                    <h2><a href="#">NBA</a></h2>
-                    <ul>
-                        <li><h3><a href="#">私房库</a></h3></li>
-                        <li><h3><a href="#">私</a></h3></li>
-                        <li><h3><a href="#">房</a></h3></li>
-                    </ul>
-                </li>
-                <li>
-                    <h2><a href="#">CBA</a></h2>
-                </li>
+
+                <?php
+                $query = "select * from sfk_father_module";
+                $result = execute($link,$query);
+                while ($data_father = mysqli_fetch_assoc($result)){
+
+                ?>
+                    <li>
+                        <h2><a href="list_father.php?id=<?php echo $data_father['id']?>"><?php echo $data_father['module_name']?></a></h2>
+                        <ul>
+                         <?php
+                         $query = "select * from sfk_son_module where father_module_id = {$data_father['id']}";
+                         $result_son = execute($link,$query);
+                         while($data_son = mysqli_fetch_assoc($result_son)){
+                             ?>
+                             <li><h3><a href="#"><?php echo $data_son['module_name']?></a></h3></li>
+                             <?php
+                         }
+                    ?>
+                        </ul>
+                    </li>
+                <?php
+
+                }
+
+               ?>
             </ul>
         </div>
     </div>
