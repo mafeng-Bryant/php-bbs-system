@@ -63,7 +63,7 @@ $template['css']=array('style/public.css','style/list.css');
                 <div class="moderator"> 子版块： <?php echo $name_son ?></div>
             </div>
             <div class="pages_wrap">
-                <a class="btn publish" href="publish.php"></a>
+                <a class="btn publish" href="publish.php?father_module_id=<?php echo $_GET['id'] ?>" target="_blank"></a>
                 <div class="pages">
                     <?php
                     $page = page($all_content_count,5);
@@ -97,7 +97,7 @@ $template['css']=array('style/public.css','style/list.css');
                     </a>
                 </div>
                 <div class="subject">
-                    <div class="titleWrap"><a href="#"><?php  echo  $data_content['module_name'] ?></a>&nbsp;&nbsp;<h2><a href="#"><?php echo $data_content['title']?></a></h2></div>
+                    <div class="titleWrap"><a href="#"><?php  echo  $data_content['module_name'] ?></a>&nbsp;&nbsp;<h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                     <p>
                         楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：2014-12-08
                     </p>
@@ -116,7 +116,7 @@ $template['css']=array('style/public.css','style/list.css');
           }
           ?>
         <div class="pages_wrap">
-            <a class="btn publish" href="publish.php"></a>
+            <a class="btn publish" href="publish.php?father_module_id=<?php echo $_GET['id'] ?>" target="_blank"></a>
             <div class="pages">
                 <?php
                 echo $page['html'];

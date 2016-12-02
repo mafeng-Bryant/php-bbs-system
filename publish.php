@@ -45,7 +45,11 @@ $template['css']=array('style/public.css','style/publish.css');
         <select name="module_id">
             echo "<option value='-1'>请选择一个子版块</option>";
             <?php
-            $query = "select * from sfk_father_module order by sort desc";
+            $where = '';
+           if (isset($_GET['father_module_id']) && is_numeric($_GET['father_module_id'])){
+               $where = "where id = {$_GET['father_module_id']}";
+           }
+            $query = "select * from sfk_father_module $where order by sort desc";
             $result = execute($link,$query);
           while ($data = mysqli_fetch_assoc($result)){
               echo "<optgroup label='{$data['module_name']}'>";

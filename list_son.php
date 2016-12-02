@@ -101,7 +101,7 @@ $template['css']=array('style/public.css','style/list.css');
                         </a>
                     </div>
                     <div class="subject">
-                        <div class="titleWrap"><h2><a href="#"><?php echo $data_content['title']?></a></h2></div>
+                        <div class="titleWrap"><h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
                             楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：2014-12-08
                         </p>
