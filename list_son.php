@@ -87,6 +87,7 @@ $template['css']=array('style/public.css','style/list.css');
                       {$page['limit']}";
             $result_3 = execute($link,$sql4);
             while($data_content = mysqli_fetch_assoc($result_3)){
+                $data_content['title'] = htmlspecialchars($data_content['title']);
                 ?>
                 <li>
                     <div class="smallPic">

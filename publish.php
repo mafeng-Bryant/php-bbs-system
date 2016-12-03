@@ -10,12 +10,6 @@ if (!($member_id = is_login($link))){
     skipPage('login.php','ok','请登录后在发帖!');
 }
 
-if (isset($_GET['id'])){ //存在，设置选择
-
-
-
-}
-
 
 if (isset($_POST['submit'])){
 
