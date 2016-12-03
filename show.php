@@ -51,13 +51,12 @@ $template['css']=array('style/public.css','style/show.css');
 <div id="main" class="auto">
     <div class="wrap1">
         <div class="pages">
-            <a>« 上一页</a>
-            <a>1</a>
-            <span>2</span>
-            <a>3</a>
-            <a>4</a>
-            <a>...13</a>
-            <a>下一页 »</a>
+            <?php
+            $query = "select count(*) from sfk_reply where content_id={$_GET['id']}";
+            $count_reply = num($link,$query);
+            $page = page($count_reply,10);
+            echo  $page['html'];
+            ?>
         </div>
         <a class="btn reply" href="reply.php?id=<?php echo $_GET['id']?>" target="_blank"></a>
         <div style="clear:both;"></div>
@@ -95,67 +94,56 @@ $template['css']=array('style/public.css','style/show.css');
         </div>
         <div style="clear:both;"></div>
     </div>
-    <div class="wrapContent">
-        <div class="left">
-            <div class="face">
-                <a target="_blank" href="">
-                    <img src="style/2374101_middle.jpg" />
-                </a>
-            </div>
-            <div class="name">
-                <a href="">孙胜利</a>
-            </div>
-        </div>
-        <div class="right">
 
-            <div class="pubdate">
-                <span class="date">回复时间：2014-12-29 14:24:26</span>
-                <span class="floor">1楼&nbsp;|&nbsp;<a href="#">引用</a></span>
-            </div>
-            <div class="content">
-                定位球定位器
-            </div>
-        </div>
-        <div style="clear:both;"></div>
-    </div>
-    <div class="wrapContent">
-        <div class="left">
-            <div class="face">
-                <a target="_blank" data-uid="2374101" href="">
-                    <img src="style/2374101_middle.jpg" />
-                </a>
-            </div>
-            <div class="name">
-                <a class="J_user_card_show mr5" data-uid="2374101" href="">孙胜利</a>
-            </div>
-        </div>
-        <div class="right">
+    <?php
 
-            <div class="pubdate">
-                <span class="date">回复时间：2014-12-29 14:24:26</span>
-                <span class="floor">1楼&nbsp;|&nbsp;<a href="#">引用</a></span>
-            </div>
-            <div class="content">
-                <div class="quote">
-                    <h2>引用 1楼 孙胜利 发表的: </h2>
-                    哈哈
+    $query = "select sm.name,sr.member_id,sm.photo ,sr.time,sr.id,sr.content from sfk_reply sr,sfk_member sm where sr.content_id = {$_GET['id']} and sr.member_id = sm.id {$page['limit']};
+";
+    $result_reply = execute($link,$query);
+    while ($reply_data = mysqli_fetch_assoc($result_reply)) {
+        $reply_data['content'] = nl2br(htmlspecialchars($reply_data['content']));
+
+        ?>
+        <div class="wrapContent">
+            <div class="left">
+                <div class="face">
+                    <a target="_blank" href="">
+                        <img width="120" height="120" src="<?php
+                        if ($reply_data['photo'] !='') {
+                            echo "{$reply_data['photo']}";
+                        } else {
+                            echo "style/2374101_middle.jpg";
+                        }
+                        ?>">
+                    </a>
                 </div>
-                定位球定位器
+                <div class="name">
+                    <a href=""><?php  echo  $reply_data['name']?></a>
+                </div>
             </div>
+            <div class="right">
+                <div class="pubdate">
+                    <span class="date">回复时间：<?php echo $reply_data['time']?></span>
+                    <span class="floor">1楼&nbsp;|&nbsp;<a href="#">引用</a></span>
+                </div>
+                <div class="content">
+       <?php
+       echo  $reply_data['content'];
+       ?>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
         </div>
-        <div style="clear:both;"></div>
-    </div>
+        <?php
+       }
+  ?>
     <div class="wrap1">
         <div class="pages">
-            <a>« 上一页</a>
-            <a>1</a>
-            <span>2</span>
-            <a>3</a>
-            <a>4</a>
-            <a>...13</a>
-            <a>下一页 »</a>
+            <?php
+            echo  $page['html'];
+            ?>
         </div>
-        <a class="btn reply" href="#"></a>
+        <a class="btn reply" href="reply.php?id=<?php echo $_GET['id']?>" target="_blank"></a>
         <div style="clear:both;"></div>
     </div>
 </div>
