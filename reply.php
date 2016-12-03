@@ -30,7 +30,6 @@ if (isset($_POST['submit'])){
 
 }
 
-
 $query = "select sc.id,sc.title,sm.name from sfk_content sc,sfk_member sm where sc.id = {$_GET['id']} and sc.member_id = sm.id";
 $result_content = execute($link,$query);
 if (mysqli_num_rows($result_content)!=1){

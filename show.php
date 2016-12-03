@@ -104,7 +104,7 @@ $template['css']=array('style/public.css','style/show.css');
     }
     ?>
     <?php
-    $query = "select sm.name,sr.member_id,sm.photo ,sr.time,sr.id,sr.content from sfk_reply sr,sfk_member sm where sr.content_id = {$_GET['id']} and sr.member_id = sm.id {$page['limit']};
+    $query = "select sm.name,sr.member_id,sm.photo ,sr.quote_id,sr.time,sr.id,sr.content from sfk_reply sr,sfk_member sm where sr.content_id = {$_GET['id']} and sr.member_id = sm.id {$page['limit']};
 ";
     $result_reply = execute($link,$query);
     $i = 0;
@@ -139,9 +139,26 @@ $template['css']=array('style/public.css','style/show.css');
                     <span class="floor"><?php echo $i++?>楼&nbsp;|&nbsp;<a target="_blank" href="quote.php?id=<?php echo $_GET['id']?>&reply_id=<?php echo $reply_data['id']?>">引用</a></span>
                 </div>
                 <div class="content">
-       <?php
-       echo  $reply_data['content'];
-       ?>
+
+          <?php
+          if ($reply_data['quote_id']) {
+            $query = "select count(*) from sfk_reply where content_id = {$_GET['id']} and id<={$reply_data['quote_id']}";
+            $floor = num($link,$query);
+              $query1="select sfk_reply.content,sfk_member.name from sfk_reply,sfk_member where sfk_reply.id={$reply_data['quote_id']} and sfk_reply.content_id={$_GET['id']} and sfk_reply.member_id=sfk_member.id";
+              $result_quote=execute($link,$query1);
+              $data_quote=mysqli_fetch_assoc($result_quote);
+              ?>
+              <div class="quote">
+                  <h2>引用 <?php echo $floor?>楼 <?php echo $data_quote['name']?> 发表的: </h2>
+                  <?php echo nl2br(htmlspecialchars($data_quote['content']))?>
+              </div>
+          <?php }
+
+          ?>
+            <?php
+           echo  $reply_data['content'];
+          ?>
+
                 </div>
             </div>
             <div style="clear:both;"></div>
