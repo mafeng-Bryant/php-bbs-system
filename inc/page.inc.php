@@ -88,7 +88,7 @@ function page($count,$page_size,$num_btn=10,$page='page'){
             }
             if($key_end!=$page_num_all){
                 array_pop($html);
-                array_push($html,"<a href='{$url}={$page_num_all}'>...{$page_num_all}</a>");
+                array_push($html,"<a href='{$url}{$page_num_all}'>...{$page_num_all}</a>");
             }
         }
     }

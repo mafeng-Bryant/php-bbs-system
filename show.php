@@ -54,52 +54,64 @@ $template['css']=array('style/public.css','style/show.css');
             <?php
             $query = "select count(*) from sfk_reply where content_id={$_GET['id']}";
             $count_reply = num($link,$query);
-            $page = page($count_reply,10);
+            $page_size = 2;
+            $page = page($count_reply,$page_size);
             echo  $page['html'];
             ?>
         </div>
         <a class="btn reply" href="reply.php?id=<?php echo $_GET['id']?>" target="_blank"></a>
         <div style="clear:both;"></div>
     </div>
-    <div class="wrapContent">
-        <div class="left">
-            <div class="face">
-                <a target="_blank" href="">
-                    <img width="120" height="120" src="<?php
-                    if ($data_member['photo'] !='') {
-                        echo "{$data_member['photo']}";
-                    } else {
-                        echo "style/2374101_middle.jpg";
-                    }
-                    ?>">
-                </a>
-            </div>
-            <div class="name">
-                <a href=""><?php echo $data_member['name']?></a>
-            </div>
-        </div>
-        <div class="right">
-            <div class="title">
-                <h2><?php echo $data_member['title']?></h2>
-                <span>阅读:<?php echo $data_member['times']?>&nbsp|&nbsp;回复：15</span>
-                <div style="clear:both;"></div>
-            </div>
-            <div class="pubdate">
-                <span class="date"><?php echo $data_member['time']?></span>
-                <span class="floor" style="color:red;font-size:14px;font-weight:bold;">楼主</span>
-            </div>
-            <div class="content">
-                <?php echo $data_member['content']?>
-            </div>
-        </div>
-        <div style="clear:both;"></div>
-    </div>
 
     <?php
 
+    if (isset($_GET['page']) && $_GET['page'] ==1){
+    ?>
+         <div class="wrapContent">
+            <div class="left">
+                <div class="face">
+                    <a target="_blank" href="">
+                        <img width="120" height="120" src="<?php
+                        if ($data_member['photo'] !='') {
+                            echo "{$data_member['photo']}";
+                        } else {
+                            echo "style/2374101_middle.jpg";
+                        }
+                        ?>">
+                    </a>
+                </div>
+                <div class="name">
+                    <a href=""><?php echo $data_member['name']?></a>
+                </div>
+            </div>
+          <div class="right">
+                <div class="title">
+                    <h2><?php echo $data_member['title']?></h2>
+                    <span>阅读:<?php echo $data_member['times']?>&nbsp|&nbsp;回复：15</span>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="pubdate">
+                    <span class="date"><?php echo $data_member['time']?></span>
+                    <span class="floor" style="color:red;font-size:14px;font-weight:bold;">楼主</span>
+                </div>
+                <div class="content">
+                    <?php echo $data_member['content']?>
+                </div>
+            </div>
+            <div style="clear:both;"></div>
+        </div>
+         <?php
+    }
+    ?>
+    <?php
     $query = "select sm.name,sr.member_id,sm.photo ,sr.time,sr.id,sr.content from sfk_reply sr,sfk_member sm where sr.content_id = {$_GET['id']} and sr.member_id = sm.id {$page['limit']};
 ";
     $result_reply = execute($link,$query);
+    $i = 0;
+    if (isset($_GET['page'])) {
+        $i = ($_GET['page'] - 1)*$page_size+1;
+    }
+
     while ($reply_data = mysqli_fetch_assoc($result_reply)) {
         $reply_data['content'] = nl2br(htmlspecialchars($reply_data['content']));
 
@@ -124,7 +136,7 @@ $template['css']=array('style/public.css','style/show.css');
             <div class="right">
                 <div class="pubdate">
                     <span class="date">回复时间：<?php echo $reply_data['time']?></span>
-                    <span class="floor">1楼&nbsp;|&nbsp;<a href="#">引用</a></span>
+                    <span class="floor"><?php echo $i++?>楼&nbsp;|&nbsp;<a target="_blank" href="quote.php?id=<?php echo $_GET['id']?>&reply_id=<?php echo $reply_data['id']?>">引用</a></span>
                 </div>
                 <div class="content">
        <?php
