@@ -34,11 +34,6 @@ if (mysqli_num_rows($result_content)==1){
     skipPage("member.php?id={$member_id}", 'error', '帖子不存在!');
 }
 
-
-
-
-
-
 if (isset($_POST['submit'])){
 
     include 'inc/check_publish.inc.php';
