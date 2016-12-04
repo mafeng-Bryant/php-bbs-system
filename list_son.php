@@ -80,7 +80,7 @@ $template['css']=array('style/public.css','style/list.css');
         <ul class="postsList">
 
             <?php
-            $sql4 = "select sfk_member.photo,sfk_member.name,sfk_content.time,sfk_content.id,sfk_content.title,sfk_content.times
+            $sql4 = "select sfk_member.photo,sfk_member.name,sfk_content.member_id,sfk_content.time,sfk_content.id,sfk_content.title,sfk_content.times
                       from sfk_content,sfk_member 
                       where sfk_content.module_id = {$data_son['id']} 
                       and sfk_content.member_id = sfk_member.id
@@ -88,7 +88,6 @@ $template['css']=array('style/public.css','style/list.css');
             $result_3 = execute($link,$sql4);
             while($data_content = mysqli_fetch_assoc($result_3)){
                 $data_content['title'] = htmlspecialchars($data_content['title']);
-
                 $sql5 = "select * from sfk_reply where content_id = {$data_content['id']} order by id desc limit 1";
                 $result_reply =  execute($link,$sql5);
                 if (mysqli_num_rows($result_reply)==0){
@@ -104,7 +103,7 @@ $template['css']=array('style/public.css','style/list.css');
                 ?>
                 <li>
                     <div class="smallPic">
-                        <a href="#">
+                        <a href='member.php?id=<?php echo $data_content['member_id']?>' target='_blank'>
                             <img width="45" height="45" src="<?php
                             if ($data_content['photo'] !='') {
                                 echo "{$data_content['photo']}";
@@ -115,7 +114,6 @@ $template['css']=array('style/public.css','style/list.css');
                         </a>
                     </div>
                     <div class="subject">
-
                         <div class="titleWrap"><h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
                             楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：<?php echo $last_time?>

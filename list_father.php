@@ -75,7 +75,7 @@ $template['css']=array('style/public.css','style/list.css');
         <div style="clear:both;"></div>
         <ul class="postsList">
             <?php
-            $sql4 = "select sfk_member.photo,sfk_member.name,sfk_content.time,sfk_content.id,sfk_content.title,sfk_content.times,sfk_son_module.module_name,sfk_son_module.id ssm_id  from sfk_content,sfk_member,sfk_son_module 
+            $sql4 = "select sfk_member.photo,sfk_member.name,sfk_content.member_id,sfk_content.time,sfk_content.id,sfk_content.title,sfk_content.times,sfk_son_module.module_name,sfk_son_module.id ssm_id  from sfk_content,sfk_member,sfk_son_module 
                       where sfk_content.module_id in({$id_son}) 
                       and sfk_content.member_id = sfk_member.id
                       and  sfk_content.module_id = sfk_son_module.id {$page['limit']}";
@@ -95,7 +95,7 @@ $template['css']=array('style/public.css','style/list.css');
                 ?>
             <li>
                 <div class="smallPic">
-                    <a href="#">
+                    <a href='member.php?id=<?php echo $data_content['member_id']?>' target='_blank'>
                         <img width="45" height="45" src="<?php
                         if ($data_content['photo'] !='') {
                          echo "{$data_content['photo']}";
