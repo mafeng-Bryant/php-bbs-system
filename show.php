@@ -38,6 +38,9 @@ $data_member = mysqli_fetch_assoc($result_member);
 $data_member['title'] = htmlspecialchars($data_member['title']);
 $data_member['content'] = nl2br(htmlspecialchars($data_member['content']));
 
+$sql5 = "select count(*) from sfk_reply where content_id = {$_GET['id']}";
+$reply_count = num($link,$sql5);
+
 $template['title'] = '帖子详情页';
 $template['css']=array('style/public.css','style/show.css');
 
@@ -54,7 +57,7 @@ $template['css']=array('style/public.css','style/show.css');
             <?php
             $query = "select count(*) from sfk_reply where content_id={$_GET['id']}";
             $count_reply = num($link,$query);
-            $page_size = 2;
+            $page_size = 10;
             $page = page($count_reply,$page_size);
             echo  $page['html'];
             ?>
@@ -87,7 +90,7 @@ $template['css']=array('style/public.css','style/show.css');
           <div class="right">
                 <div class="title">
                     <h2><?php echo $data_member['title']?></h2>
-                    <span>阅读:<?php echo $data_member['times']?>&nbsp|&nbsp;回复：15</span>
+                    <span>阅读:<?php echo $data_member['times']?>&nbsp|&nbsp;回复：<?php echo $reply_count?></span>
                     <div style="clear:both;"></div>
                 </div>
                 <div class="pubdate">

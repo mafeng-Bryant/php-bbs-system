@@ -6,10 +6,9 @@ include_once 'inc/tool.inc.php';
 include_once  'inc/page.inc.php';
 
 $link = connectMySql();
-
 $member_id = is_login($link);
 
-if (!is_numeric($_GET['id']) || !isset($_GET['id'])){
+if(!isset($_GET['id']) || !is_numeric($_GET['id'])){
     skipPage('index.php','error','父版块id参数错误!');
 }
 
@@ -66,7 +65,7 @@ $template['css']=array('style/public.css','style/list.css');
                 <a class="btn publish" href="publish.php?father_module_id=<?php echo $_GET['id'] ?>" target="_blank"></a>
                 <div class="pages">
                     <?php
-                    $page = page($all_content_count,5);
+                    $page = page($all_content_count,20);
                     echo $page['html'];
                     ?>
                 </div>
@@ -76,14 +75,23 @@ $template['css']=array('style/public.css','style/list.css');
         <div style="clear:both;"></div>
         <ul class="postsList">
             <?php
-            $sql4 = "select sfk_member.photo,sfk_member.name,sfk_content.time,sfk_content.id,sfk_content.title,sfk_content.times,sfk_son_module.module_name 
-                      from sfk_content,sfk_member,sfk_son_module 
+            $sql4 = "select sfk_member.photo,sfk_member.name,sfk_content.time,sfk_content.id,sfk_content.title,sfk_content.times,sfk_son_module.module_name,sfk_son_module.id ssm_id  from sfk_content,sfk_member,sfk_son_module 
                       where sfk_content.module_id in({$id_son}) 
                       and sfk_content.member_id = sfk_member.id
                       and  sfk_content.module_id = sfk_son_module.id {$page['limit']}";
             $result_3 = execute($link,$sql4);
             while($data_content = mysqli_fetch_assoc($result_3)){
                 $data_content['title'] = htmlspecialchars($data_content['title']);
+           $sql5 = "select * from sfk_reply where content_id = {$data_content['id']} order by id desc limit 1";
+           $result_reply =  execute($link,$sql5);
+           if (mysqli_num_rows($result_reply)==0){
+               $last_time = '暂无';
+           }else {
+               $result_reply_data = mysqli_fetch_assoc($result_reply);
+               $last_time = $result_reply_data['time'];
+           }
+          $sql6 = "select count(*) from sfk_reply where content_id = {$data_content['id']}";
+          $reply_count = num($link,$sql6);
                 ?>
             <li>
                 <div class="smallPic">
@@ -98,14 +106,14 @@ $template['css']=array('style/public.css','style/list.css');
                     </a>
                 </div>
                 <div class="subject">
-                    <div class="titleWrap"><a href="#"><?php  echo  $data_content['module_name'] ?></a>&nbsp;&nbsp;<h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
+                    <div class="titleWrap"><a href="list_son.php?id=<?php  echo $data_content['ssm_id']?>"><?php  echo  $data_content['module_name'] ?></a>&nbsp;&nbsp;<h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                     <p>
-                        楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：2014-12-08
+                        楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：<?php echo $last_time ?>
                     </p>
                 </div>
                 <div class="count">
                     <p>
-                        回复<br /><span>41</span>
+                        回复<br /><span><?php echo $reply_count?></span>
                     </p>
                     <p>
                         浏览<br /><span><?php echo $data_content['times'] ?></span>

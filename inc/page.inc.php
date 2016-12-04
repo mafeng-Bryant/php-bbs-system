@@ -9,18 +9,18 @@ $num_btn：要展示的页码按钮数目
 $page：分页的get参数
 */
 function page($count,$page_size,$num_btn=10,$page='page'){
-
+    if(!isset($_GET[$page]) || !is_numeric($_GET[$page]) || $_GET[$page]<1){
+        $_GET[$page]=1;
+    }
    if ($count ==0){
+
+
        $data=array(
            'limit'=>'',
            'html'=>''
        );
      return $data;
    }
-
-    if(!isset($_GET[$page]) || !is_numeric($_GET[$page]) || $_GET[$page]<1){
-        $_GET[$page]=1;
-    }
     //总页数
     $page_num_all=ceil($count/$page_size);
     if($_GET[$page]>$page_num_all){

@@ -69,7 +69,7 @@ $template['css']=array('style/public.css','style/list.css');
                 <a class="btn publish" href="publish.php?son_module_id=<?php echo $_GET['id']?>" target="_blank"></a>
                 <div class="pages">
                     <?php
-                    $page = page($all_content_count,5);
+                    $page = page($all_content_count,20);
                     echo $page['html'];
                     ?>
                 </div>
@@ -88,6 +88,19 @@ $template['css']=array('style/public.css','style/list.css');
             $result_3 = execute($link,$sql4);
             while($data_content = mysqli_fetch_assoc($result_3)){
                 $data_content['title'] = htmlspecialchars($data_content['title']);
+
+                $sql5 = "select * from sfk_reply where content_id = {$data_content['id']} order by id desc limit 1";
+                $result_reply =  execute($link,$sql5);
+                if (mysqli_num_rows($result_reply)==0){
+                    $last_time = '暂无';
+                }else {
+                    $result_reply_data = mysqli_fetch_assoc($result_reply);
+                    $last_time = $result_reply_data['time'];
+                }
+                $sql6 = "select count(*) from sfk_reply where content_id = {$data_content['id']}";
+                $reply_count = num($link,$sql6);
+
+
                 ?>
                 <li>
                     <div class="smallPic">
@@ -105,12 +118,12 @@ $template['css']=array('style/public.css','style/list.css');
 
                         <div class="titleWrap"><h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
-                            楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：2014-12-08
+                            楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：<?php echo $last_time?>
                         </p>
                     </div>
                     <div class="count">
                         <p>
-                            回复<br /><span>41</span>
+                            回复<br /><span><?php echo $reply_count?></span>
                         </p>
                         <p>
                             浏览<br /><span><?php echo $data_content['times'] ?></span>
