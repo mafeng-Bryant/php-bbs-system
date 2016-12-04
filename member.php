@@ -35,7 +35,7 @@ $template['css']=array('style/public.css','style/list.css','style/member.css');
             <ul class="postsList">
                 <?php
                 $page = page($all_content_count,5);
-                $sql = "select sfk_member.photo,sfk_member.name,sfk_content.time,sfk_content.id,sfk_content.title,sfk_content.times
+                $sql = "select sfk_member.photo,sfk_member.name,sfk_content.time,sfk_content.member_id,sfk_content.id,sfk_content.title,sfk_content.times
                       from sfk_content,sfk_member
                       where sfk_content.member_id = {$_GET['id']} and sfk_content.member_id = sfk_member.id {$page['limit']}";
                 $result_3 = execute($link,$sql);
@@ -67,6 +67,15 @@ $template['css']=array('style/public.css','style/list.css','style/member.css');
                     <div class="subject">
                         <div class="titleWrap"><h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
+                            <?php
+                            if (check_user($member_id,$data_content['member_id'])){
+                                $url = urlencode("content_delete.php?id={$data_content['id']}");
+                                $return_url = urlencode($_SERVER['REQUEST_URI']);
+                                $message = "你真的要删除帖子{$data_content['title']} 吗?";
+                                $delete_url = "confirm.php?url={$url}&return_url={$return_url}&message={$message}";
+                                echo "编辑 <a href='{$delete_url}' >删除</a>";
+                            }
+                            ?>
                             楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：<?php echo $last_time?>
                         </p>
                     </div>
