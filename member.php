@@ -110,7 +110,7 @@ $template['css']=array('style/public.css','style/list.css','style/member.css');
                     </dt>
                     <dd class="name"><?php echo $data_member['name']?></dd>
                     <dd>帖子总计：<?php echo $all_content_count ?></dd>
-                    <!--<dd>操作：<a target="_blank" href="">修改头像</a> | <a target="_blank" href="">修改密码</a></dd>-->
+                    <dd>操作：<a target="_blank" href="member_photo_update.php">修改头像</a> | <a target="_blank" href="">修改密码</a></dd>
                 </dl>
                 <div style="clear:both;"></div>
             </div>
