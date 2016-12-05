@@ -31,7 +31,7 @@
         <li>
             <div class="small_title">系统</div>
             <ul class="child">
-                <li><a href="#">系统信息</a></li>
+                <li><a <?php  if (basename($_SERVER['SCRIPT_NAME']) =='index.php'){echo 'class="current"';}?> href="index.php">系统信息</a></li>
                 <li><a <?php  if (basename($_SERVER['SCRIPT_NAME']) =='manage.php'){echo 'class="current"';}?> href="manage.php">管理员</a></li>
                 <li><a <?php  if (basename($_SERVER['SCRIPT_NAME']) =='manage_add.php'){echo 'class="current"';}?> href="manage_add.php">添加管理员</a></li>
                 <li><a href="#">站点设置</a></li>

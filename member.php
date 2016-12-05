@@ -7,6 +7,7 @@ include_once 'inc/page.inc.php';
 
 $link = connectMySql();
 $member_id = is_login($link);
+$is_manage_login = is_manage_login($link);
 
 if(!isset($_GET['id']) || !is_numeric($_GET['id'])){
     skipPage('index.php', 'error', '会员id参数不合法!');
@@ -69,7 +70,7 @@ $template['css']=array('style/public.css','style/list.css','style/member.css');
                         <div class="titleWrap"><h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
                             <?php
-                            if (check_user($member_id,$data_content['member_id'])){
+                            if (check_user($member_id,$data_content['member_id'],$is_manage_login)){
                                 $url = urlencode("content_delete.php?id={$data_content['id']}");
                                 $return_url = urlencode($_SERVER['REQUEST_URI']);
                                 $message = "你真的要删除帖子{$data_content['title']} 吗?";
