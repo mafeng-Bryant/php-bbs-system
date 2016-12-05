@@ -5,8 +5,9 @@ include_once 'inc/mysql.inc.php';
 include_once 'inc/tool.inc.php';
 
 $link = connectMySql();
+$is_manage_login = is_manage_login($link);
 
-if (!($member_id = is_login($link))){
+if (!($member_id = is_login($link)) && !$is_manage_login){
     skipPage('login.php','ok','请登录后在删除帖子!');
 }
 
@@ -19,24 +20,29 @@ $result_content = execute($link,$query);
 if (mysqli_num_rows($result_content)==1){
     $data_content = mysqli_fetch_assoc($result_content);
     $data_content['title'] = htmlspecialchars($data_content['title']);
-    if (check_user($member_id,$data_content['member_id'])){
+    if (check_user($member_id,$data_content['member_id'],$is_manage_login)){
         if (isset($_POST['submit'])) {
             include 'inc/check_publish.inc.php';
             $_POST = escape($link, $_POST);
             $query2 = "update sfk_content set module_id = {$_POST['module_id']},title = '{$_POST['title']}',content='{$_POST['content']}' where id = {$_GET['id']}";
             execute($link, $query2);
+            if (isset($_GET['return_url'])){
+             $return_url = $_GET['return_url'];
+            }else {
+              $return_url = "member.php?id={$member_id}";
+            }
             if (mysqli_affected_rows($link) == 1) {
-                skipPage("member.php?id={$member_id}", 'ok', '修改成功！');
+                skipPage($return_url, 'ok', '修改成功！');
             } else {
-                skipPage("member.php?id={$member_id}", 'error', '修改失败！');
+                skipPage($return_url, 'error', '修改失败！');
             }
         }
     }else {
-        skipPage("member.php?id={$member_id}", 'error', '当前帖子不是你发的，不能删除!');
+        skipPage("index,php", 'error', '当前帖子不是你发的，不能删除!');
     }
 
 }else {
-    skipPage("member.php?id={$member_id}", 'error', '帖子不存在!');
+    skipPage("index.php", 'error', '帖子不存在!');
 }
 
 $template['title'] = '帖子修改页';

@@ -22,8 +22,8 @@
         <li><a href="http://www.sifangku.com" target="_blank">私房库</a></li>
     </ul>
     <div class="login_info">
-        <a href="#" style="color:#fff;">网站首页</a>&nbsp;|&nbsp;
-        管理员： admin <a href="#">[注销]</a>
+        <a target="_blank" href="../index.php" style="color:#fff;">网站首页</a>&nbsp;|&nbsp;
+        管理员：<?php echo $_SESSION['manage']['name']?>  <a href="logout.php">[注销]</a>
     </div>
 </div>
 <div id="sidebar">
@@ -54,7 +54,7 @@
                     echo '<li><a class="current">编辑子版块</a></li>';
                 }
                 ?>
-                <li><a href="#">帖子管理</a></li>
+                <li><a target="_blank" href="../index.php">帖子管理</a></li>
             </ul>
         </li>
         <li>

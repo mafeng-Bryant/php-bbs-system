@@ -5,8 +5,9 @@ include_once 'inc/mysql.inc.php';
 include_once 'inc/tool.inc.php';
 
 $link = connectMySql();
+$is_manage_login = is_manage_login($link);
 
-if (!($member_id = is_login($link))){
+if (!($member_id = is_login($link)) && !$is_manage_login){
     skipPage('login.php','ok','请登录后在删除帖子!');
 }
 
@@ -18,20 +19,26 @@ $query = "select member_id from sfk_content where id = {$_GET['id']}";
 $result_content = execute($link,$query);
 if (mysqli_num_rows($result_content)==1){
   $data_content = mysqli_fetch_assoc($result_content);
-  if (check_user($member_id,$data_content['member_id'])){
-   $sql = "delete from sfk_content where id = {$_GET['id']}";
-   execute($link,$sql);
-   if (mysqli_affected_rows($link)==1){
-       skipPage("member.php?id={$member_id}", 'ok', '恭喜你删除成功!');
+  if (check_user($member_id,$data_content['member_id'],$is_manage_login)){
+       $sql = "delete from sfk_content where id = {$_GET['id']}";
+        execute($link,$sql);
+      //设置跳转的url
+      if (isset($_GET['return_url'])){
+          $return_url = $_GET['return_url'];
+      }else {
+          $return_url = "member.php?id={$member_id}";
+      }
+      if (mysqli_affected_rows($link)==1){
+       skipPage($return_url, 'ok', '恭喜你删除成功!');
    }else {
-       skipPage("member.php?id={$member_id}", 'error', '对不起，删除失败!');
+       skipPage($return_url, 'error', '对不起，删除失败!');
    }
   }else {
-      skipPage("member.php?id={$member_id}", 'error', '当前帖子不是你发的，不能删除!');
+      skipPage("index.php", 'error', '当前帖子不是你发的，不能删除!');
   }
 
 }else {
-    skipPage("member.php?id={$member_id}", 'error', '帖子不存在!');
+    skipPage("index.php", 'error', '帖子不存在!');
 }
 
 if (isset($_POST['submit'])){

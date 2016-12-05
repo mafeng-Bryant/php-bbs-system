@@ -36,8 +36,9 @@ if (isset($_COOKIE['sfk']['name']) && isset($_COOKIE['sfk']['password'])) {
   }
 }
 
-function check_user($member_id,$content_member_id){
-    if ($member_id == $content_member_id){
+//判断是不是后台登录或者前台用户自己登录的
+function check_user($member_id,$content_member_id,$is_manage_login){
+    if ($member_id == $content_member_id || $is_manage_login){
         return true;
     }else {
         return false;

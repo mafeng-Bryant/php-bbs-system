@@ -115,7 +115,6 @@ $template['css']=array('style/public.css','style/list.css','style/member.css');
                     if ($member_id ==$data_member['id']) {
                      ?>
                      <dd>操作：<a target="_blank" href="member_photo_update.php">修改头像</a> | <a target="_blank" href="">修改密码</a></dd>
-                     }
                      <?php
                     }
                     ?>

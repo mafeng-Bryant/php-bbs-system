@@ -8,6 +8,7 @@ include_once  'inc/page.inc.php';
 $link = connectMySql();
 
 $member_id = is_login($link);
+$is_manage_login = is_manage_login($link);
 
 if (!is_numeric($_GET['id']) || !isset($_GET['id'])){
     skipPage('index.php','error','子版块id参数错误!');
@@ -98,8 +99,6 @@ $template['css']=array('style/public.css','style/list.css');
                 }
                 $sql6 = "select count(*) from sfk_reply where content_id = {$data_content['id']}";
                 $reply_count = num($link,$sql6);
-
-
                 ?>
                 <li>
                     <div class="smallPic">
@@ -116,8 +115,19 @@ $template['css']=array('style/public.css','style/list.css');
                     <div class="subject">
                         <div class="titleWrap"><h2><a target="_blank" href="show.php?id=<?php echo $data_content['id']?>"><?php echo $data_content['title']?></a></h2></div>
                         <p>
-                            楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：<?php echo $last_time?>
+                            楼主：<?php echo $data_content['name'] ?> &nbsp;<?php echo $data_content['time'] ?>&nbsp; 最后回复：<?php echo $last_time?><br />
+                            <?php
+                            if (check_user($member_id,$data_content['member_id'],$is_manage_login)){
+                                $return_url = urlencode($_SERVER['REQUEST_URI']);
+                                $url = urlencode("content_delete.php?id={$data_content['id']}&return_url={$return_url}");
+                                $message = "你真的要删除帖子{$data_content['title']} 吗?";
+                                $delete_url = "confirm.php?url={$url}&return_url={$return_url}&message={$message}";
+                                echo "<a href='content_update.php?id={$data_content['id']}&return_url={$return_url}'>编辑</a> <a href='{$delete_url}' >删除</a><br />";
+                            }
+                            ?>
                         </p>
+
+
                     </div>
                     <div class="count">
                         <p>
