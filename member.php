@@ -1,4 +1,5 @@
 <?php
+
 include_once 'inc/config.inc.php';
 include_once 'inc/mysql.inc.php';
 include_once 'inc/tool.inc.php';
@@ -57,7 +58,7 @@ $template['css']=array('style/public.css','style/list.css','style/member.css');
                         <a href="#">
                             <img width="45" height="45" src="<?php
                             if ($data_content['photo'] !='') {
-                                echo "{$data_content['photo']}";
+                                echo SUB_URL.$data_content['photo'];
                             } else {
                                 echo "style/2374101_middle.jpg";
                             }
@@ -110,7 +111,14 @@ $template['css']=array('style/public.css','style/list.css','style/member.css');
                     </dt>
                     <dd class="name"><?php echo $data_member['name']?></dd>
                     <dd>帖子总计：<?php echo $all_content_count ?></dd>
-                    <dd>操作：<a target="_blank" href="member_photo_update.php">修改头像</a> | <a target="_blank" href="">修改密码</a></dd>
+                    <?php
+                    if ($member_id ==$data_member['id']) {
+                     ?>
+                     <dd>操作：<a target="_blank" href="member_photo_update.php">修改头像</a> | <a target="_blank" href="">修改密码</a></dd>
+                     }
+                     <?php
+                    }
+                    ?>
                 </dl>
                 <div style="clear:both;"></div>
             </div>

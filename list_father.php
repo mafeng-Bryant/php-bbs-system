@@ -98,7 +98,7 @@ $template['css']=array('style/public.css','style/list.css');
                     <a href='member.php?id=<?php echo $data_content['member_id']?>' target='_blank'>
                         <img width="45" height="45" src="<?php
                         if ($data_content['photo'] !='') {
-                         echo "{$data_content['photo']}";
+                            echo SUB_URL.$data_content['photo'];
                         } else {
                            echo "style/2374101_middle.jpg";
                         }
