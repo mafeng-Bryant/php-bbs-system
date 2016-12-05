@@ -8,7 +8,6 @@ $link =  connectMySql();
 //验证是否管理员登录
 include_once  'inc/is_manage_login.inc.php';
 
-
 if (isset($_POST['submit'])){
     foreach ($_POST['sort'] as $key=>$val){
         if (!is_numeric($val) || !is_numeric($key)){
