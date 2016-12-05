@@ -5,6 +5,8 @@ include_once '../inc/config.inc.php';
 include_once '../inc/tool.inc.php';
 
 $link =  connectMySql();
+//验证是否管理员登录
+include_once  'inc/is_manage_login.inc.php';
 
 if (isset($_POST['submit'])){
     foreach ($_POST['sort'] as $key=>$val){
@@ -22,7 +24,6 @@ if (isset($_POST['submit'])){
 
 $template['title'] = '管理员列表页';
 $template['css'] = array('style/public.css');
-
 
 ?>
 
@@ -64,7 +65,6 @@ A;
                 }
                 ?>
             </table>
-            <input  style="margin-top: 20px;cursor: pointer;" class="btn" type="submit" name="submit" value="修改排序" />
     </div>
 
 

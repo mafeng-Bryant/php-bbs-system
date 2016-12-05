@@ -5,6 +5,9 @@ include_once '../inc/config.inc.php';
 include_once '../inc/tool.inc.php';
 
 $link =  connectMySql();
+//验证是否管理员登录
+include_once  'inc/is_manage_login.inc.php';
+
 
 if (isset($_POST['submit'])){
     foreach ($_POST['sort'] as $key=>$val){

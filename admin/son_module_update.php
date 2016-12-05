@@ -4,9 +4,10 @@ include_once '../inc/config.inc.php';
 include_once '../inc/mysql.inc.php';
 include_once '../inc/tool.inc.php';
 
-$template['title'] = '子版块修改页';
-$template['css'] = array('style/public.css');
+
 $link = connectMySql();
+//验证是否管理员登录
+include_once  'inc/is_manage_login.inc.php';
 
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])){
     skipPage('son_module.php','error','id参数错误');
@@ -38,6 +39,8 @@ if (isset($_POST['submit'])){
 
 $data = mysqli_fetch_assoc($result);
 
+$template['title'] = '子版块修改页';
+$template['css'] = array('style/public.css');
 
 ?>
 

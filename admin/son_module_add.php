@@ -4,9 +4,9 @@ include_once '../inc/config.inc.php';
 include_once '../inc/mysql.inc.php';
 include_once '../inc/tool.inc.php';
 
-$template['title'] = '父版块列表';
-$template['css'] = array('style/public.css');
-$link = connectMySql();
+$link =  connectMySql();
+//验证是否管理员登录
+include_once  'inc/is_manage_login.inc.php';
 
 if (isset($_POST['submit'])){
     //验证用户输入信息
@@ -21,6 +21,8 @@ if (isset($_POST['submit'])){
        skipPage('son_module_add.php','error','添加子版块失败，请重试!');
    }
 }
+$template['title'] = '父版块列表';
+$template['css'] = array('style/public.css');
 
 ?>
 

@@ -4,9 +4,12 @@ include_once '../inc/config.inc.php';
 include_once '../inc/mysql.inc.php';
 include_once '../inc/tool.inc.php';
 
+$link = connectMySql();
+//验证是否管理员登录
+include_once  'inc/is_manage_login.inc.php';
+
 if ($_POST['submit']){
 
-    $link = connectMySql();
     include 'inc/check_manage.inc.php';
     $query = "insert into sfk_manage(name,password,create_time,level) values('{$_POST['name']}',md5({$_POST['password']}),now(),{$_POST['level']})";
     execute($link,$query);
